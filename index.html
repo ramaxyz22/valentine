@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentine ❤️</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  font-family:Segoe UI,sans-serif;
+  background:#ff8fb3;
+  color:white;
+  text-align:center;
+  overflow:hidden;
+}
+
+.page{
+  display:none;
+  min-height:100vh;
+  padding:15px;
+}
+.show{display:flex}
+
+#login,#main{
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+input,button{
+  width:100%;
+  max-width:320px;
+  padding:14px;
+  margin:6px 0;
+  border-radius:25px;
+  border:none;
+  font-size:16px;
+}
+button{background:#ff3366;color:white}
+
+.container{
+  width:100%;
+  max-width:420px;
+  margin:auto;
+}
+
+.letter{
+  background:rgba(255,255,255,.2);
+  padding:15px;
+  margin:15px auto;
+  border-radius:18px;
+  max-width:360px;
+}
+
+#surat{
+  display:none;
+  background:linear-gradient(180deg,#fff0f6,#ffd6e7);
+  color:#b3004b;
+  max-height:60vh;
+  overflow-y:auto;
+}
+
+.album{
+  width:100%;
+  border-radius:15px;
+  display:none;
+  margin-bottom:10px;
+}
+
+body.night{background:#1b001b}
+
+.heart,.star,.candy{
+  position:fixed;
+  top:-20px;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  to{transform:translateY(110vh)}
+}
+#amplop{
+  cursor:pointer;
+  transition:transform .4s ease;
+}
+#amplop.open{
+  transform:scale(0) rotateX(90deg);
+}
+
+.slider{
+  overflow:hidden;
+  position:relative;
+}
+.album{
+  transition:opacity .5s ease;
+}
+.love-float, .flower-float {
+  position: fixed;
+  bottom: -20px;
+  font-size: 22px;
+  animation: floatUp linear forwards;
+  pointer-events: none;
+  z-index: 999;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-120vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* DENYUT CINTA */
+.pulse {
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0% {transform: scale(1);}
+  50% {transform: scale(1.05);}
+  100% {transform: scale(1);}
+}
+body.night{
+  background:linear-gradient(180deg,#1b001b,#330033) !important;
+}
+
+body.night {
+  background: radial-gradient(circle at top, #3a003a, #0d0010) !important;
+  transition: background 1s ease;
+}
+
+body.night .letter {
+  background: rgba(255,255,255,0.1);
+  color: #ffd6f0;
+}
+
+body.night button {
+  background: linear-gradient(45deg,#ff4da6,#ff1a75);
+  box-shadow: 0 0 15px rgba(255,77,166,.6);
+}
+.flower-rise{
+  position:fixed;
+  bottom:-30px;
+  font-size:26px;
+  animation: rise 6s linear forwards;
+  pointer-events:none;
+  z-index:999;
+}
+@keyframes rise{
+  to{
+    transform:translateY(-120vh) rotate(360deg);
+    opacity:0;
+  }
+}
+#teksSurat{
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow{
+  from{text-shadow:0 0 5px #ff4da6}
+  to{text-shadow:0 0 15px #ff99cc}
+}
+.stars{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:radial-gradient(white 1px, transparent 1px);
+  background-size:40px 40px;
+  animation: moveStars 60s linear infinite;
+  opacity:.25;
+  pointer-events:none;
+  z-index:-1;
+}
+@keyframes moveStars{
+  from{background-position:0 0}
+  to{background-position:1000px 1000px}
+}
+.album:last-child{
+  animation: finalZoom 8s ease forwards;
+}
+@keyframes finalZoom{
+  from{transform:scale(1);filter:blur(0)}
+  to{transform:scale(1.15);filter:blur(2px)}
+}
+body{
+  animation: heartbeat 2.5s infinite;
+}
+@keyframes heartbeat{
+  0%,100%{filter:brightness(1)}
+  50%{filter:brightness(1.05)}
+}
+.galaxy{
+  position:fixed;
+  top:50%;
+  left:50%;
+  width:120vmax;
+  height:120vmax;
+  background:
+    radial-gradient(circle at center,
+      rgba(255,255,255,.15),
+      rgba(255,105,180,.12),
+      rgba(90,0,120,.6));
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  animation: spinGalaxy 120s linear infinite;
+  z-index:-2;
+  pointer-events:none;
+}
+
+@keyframes spinGalaxy{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+.beat{
+  animation: beatPulse 0.8s infinite;
+}
+
+@keyframes beatPulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.02)}
+  100%{transform:scale(1)}
+}
+.galaxy{
+  position:fixed;
+  inset:-20vmax;
+  background:
+    radial-gradient(circle,
+      rgba(255,105,180,.35),
+      rgba(120,0,200,.55),
+      rgba(10,0,40,.9));
+  animation: spinGalaxy 120s linear infinite;
+  z-index:-2;
+  pointer-events:none;
+  transition: filter .2s linear;
+}
+@keyframes spinGalaxy{
+  to{transform:rotate(360deg)}
+}
+
+</style>
+</head>
+
+<body>
+<div class="stars"></div>
+<div class="galaxy"></div>
+<div class="galaxy"></div>
+
+
+<audio id="musik" loop>
+  <source src="sedia aku.mp3">
+</audio>
+
+<!-- LOGIN -->
+<div id="login" class="page show">
+  <h1>Untuk Sayangku 💖</h1>
+  <input id="pass" placeholder="Tulis namamu sayang">
+  <button onclick="masuk()">Masuk ❤️</button>
+</div>
+
+
+
+
+
+<!-- MAIN -->
+<div id="main" class="page">
+  <div class="container">
+
+    <h2>Happy Valentine <span id="nama"></span> ❤️</h2>
+
+    <button onclick="popup()">I Love You 💕</button>
+    <button onclick="toggleNight()">Night Mode 🌙</button>
+<input id="kodeTanggal" placeholder="Tanggal jadian (DDMMYYYY)">
+
+    <div id="amplop" class="letter">📩 Klik untuk buka surat Valentine</div>
+
+    <div id="surat" class="letter">
+      <div class="slider">
+        <img src="foto1.jpeg" class="album">
+        <img src="foto2.jpeg" class="album">
+        <img src="foto3.jpeg" class="album">
+      </div>
+      <div id="teksSurat"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const teks=`Hai cintaku...
+Selamat Hari Valentine Sayang! ❤️
+Kamu adalah cokelat manis dalam hidupku 🍫
+Dan bunga yang selalu mekar di hatiku 🌹
+
+Aku ingin kita selalu tertawa bersama
+dan saling genggam tangan selamanya.
+Maaf Ya sayang kalau aku nggak bisa
+ngasih apa apa.
+Maaf aku bukan orang yang sempurna,
+Maaf perlakuan ku dulu yang menyaiti ayang,
+Love you sayangku DUMARIA FANNI MEKA❤️
+Happy Valentine Sayangku 💕`;
+
+let i=0;
+let albumIndex=0;
+const album=document.getElementsByClassName("album");
+
+function masuk(){
+  nama.innerHTML=pass.value;
+  login.style.display="none";
+  main.style.display="flex";
+
+  musik.volume=0;
+  musik.play();
+
+  let v=0;
+  const fade=setInterval(()=>{
+    if(v>=0.6) clearInterval(fade);
+    musik.volume=v;
+    v+=0.02;
+  },100);
+}
+
+
+function bukaAmplop(){
+  amplop.classList.add("open");
+
+  setTimeout(()=>{
+    amplop.style.display="none";
+    surat.style.display="block";
+  },400);
+document.body.style.background="linear-gradient(180deg,#ff8fb3,#ffb6c1)";
+
+  teksSurat.innerHTML="";
+  i=0;
+  ketik();
+  albumSlider();
+
+  musik.play();      // 🎵 musik mulai pas klik
+  setTimeout(()=>{
+  alert("Terima kasih sudah hadir di hidupku ❤️");
+},8000);
+if (navigator.vibrate) {
+  navigator.vibrate([200,100,200,100,300]);
+}
+setTimeout(()=>{
+  document.body.style.background =
+  "radial-gradient(circle,#ffb6c1,#ff4d6d)";
+  alert("Maukah kamu jadi bahagiaku, hari ini dan selamanya? 💍❤️");
+},12000);
+
+
+}
+
+
+function ketik(){
+  if(i<teks.length){
+    teksSurat.innerHTML+=teks.charAt(i);
+    i++;
+    setTimeout(ketik,40);
+  }
+}
+
+function albumSlider(){
+  for(let x of album)x.style.display="none";
+  albumIndex=(albumIndex+1)%album.length;
+  album[albumIndex].style.display="block";
+  setTimeout(albumSlider,3000);
+}
+
+function popup(){
+  alert(kataCinta[Math.floor(Math.random()*kataCinta.length)]);
+}
+
+
+function toggleNight(){
+  document.body.classList.toggle("night");
+
+  musik.pause();
+
+  if(document.body.classList.contains("night")){
+    musik.src = "rama.mp3"; // 🌙 LAGU MALAM
+  }else{
+    musik.src = "sedia aku.mp3";   // ☀️ LAGU SIANG
+  }
+
+  musik.load();
+  musik.play();
+}
+
+
+amplop.addEventListener("click",bukaAmplop);
+let startX=0;
+
+document.querySelector(".slider").addEventListener("touchstart",e=>{
+  startX=e.touches[0].clientX;
+});
+
+document.querySelector(".slider").addEventListener("touchend",e=>{
+  let endX=e.changedTouches[0].clientX;
+  if(startX-endX>50) nextFoto();
+  if(endX-startX>50) prevFoto();
+});
+
+function nextFoto(){
+  for(let x of album)x.style.display="none";
+  albumIndex=(albumIndex+1)%album.length;
+  album[albumIndex].style.display="block";
+}
+
+function prevFoto(){
+  for(let x of album)x.style.display="none";
+  albumIndex=(albumIndex-1+album.length)%album.length;
+  album[albumIndex].style.display="block";
+}
+// ❤️ LOVE MELAYANG
+setInterval(()=>{
+  const love=document.createElement("div");
+  love.className="love-float";
+  love.innerHTML="❤️";
+  love.style.left=Math.random()*100+"%";
+  love.style.animationDuration=(Math.random()*3+4)+"s";
+  document.body.appendChild(love);
+  setTimeout(()=>love.remove(),6000);
+},500);
+
+// 🌸 BUNGA MELAYANG
+setInterval(()=>{
+  const flower=document.createElement("div");
+  flower.className="flower-float";
+  flower.innerHTML="🌸";
+  flower.style.left=Math.random()*100+"%";
+  flower.style.animationDuration=(Math.random()*4+5)+"s";
+  document.body.appendChild(flower);
+  setTimeout(()=>flower.remove(),7000);
+},800);
+setInterval(()=>{
+  if(!document.body.classList.contains("night")) return;
+
+  const star=document.createElement("div");
+  star.innerHTML="✨";
+  star.style.position="fixed";
+  star.style.left=Math.random()*100+"%";
+  star.style.top=Math.random()*100+"%";
+  star.style.fontSize=(Math.random()*10+10)+"px";
+  star.style.opacity=Math.random();
+  star.style.pointerEvents="none";
+  document.body.appendChild(star);
+
+  setTimeout(()=>star.remove(),1500);
+},300);
+const kataCinta=[
+  "Aku jatuh cinta setiap hari padamu 💕",
+  "Kamu rumah paling nyaman 🏡",
+  "Namamu doa favoritku 🤍",
+  "Aku milikmu, hari ini dan selamanya 💍"
+];
+setInterval(()=>{
+  const f=document.createElement("div");
+  f.className="flower-rise";
+  f.innerHTML=["🌹","🌷","🌸","💐"][Math.floor(Math.random()*4)];
+  f.style.left=Math.random()*100+"%";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),6000);
+},700);
+
+document.addEventListener("click",e=>{
+  const h=document.createElement("div");
+  h.innerHTML="❤️";
+  h.style.position="fixed";
+  h.style.left=e.clientX+"px";
+  h.style.top=e.clientY+"px";
+  h.style.fontSize="24px";
+  h.style.animation="floatUp 2s linear forwards";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),2000);
+});
+// 💓 DETAK SESUAI MUSIK
+musik.addEventListener("play",()=>{
+  document.body.classList.add("beat");
+});
+
+musik.addEventListener("pause",()=>{
+  document.body.classList.remove("beat");
+});
+const KODE_JADIAN = "21082024"; // GANTI dengan tanggal jadian asli
+
+function bukaAmplop(){
+  const kode = document.getElementById("kodeTanggal").value;
+  if(kode !== KODE_JADIAN){
+    alert("Tanggal jadian salah 😢");
+    return;
+  }
+
+  amplop.classList.add("open");
+  setTimeout(()=>{
+    amplop.style.display="none";
+    surat.style.display="block";
+  },400);
+
+  teksSurat.innerHTML="";
+  i=0; ketik(); albumSlider();
+  musik.play();
+}
+const ctx = new (window.AudioContext||window.webkitAudioContext)();
+const src = ctx.createMediaElementSource(musik);
+const analyser = ctx.createAnalyser();
+src.connect(analyser);
+analyser.connect(ctx.destination);
+analyser.fftSize = 256;
+
+const data = new Uint8Array(analyser.frequencyBinCount);
+const galaxy = document.querySelector(".galaxy");
+
+function galaxyColor(){
+  analyser.getByteFrequencyData(data);
+  const avg = data.reduce((a,b)=>a+b,0)/data.length;
+  galaxy.style.filter = `hue-rotate(${avg*2}deg) brightness(${1+avg/512})`;
+  requestAnimationFrame(galaxyColor);
+}
+
+musik.addEventListener("play",()=>{
+  ctx.resume();
+  galaxyColor();
+});
+
+</script>
+
+</body>
+</html>
