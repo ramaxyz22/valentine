@@ -62,9 +62,15 @@ button{background:#ff3366;color:white}
   display:none;
   background:linear-gradient(180deg,#fff0f6,#ffd6e7);
   color:#b3004b;
-  max-height:60vh;
-  overflow-y:auto;
+  height:70vh;          /* ⬅️ pakai height, bukan max-height */
+  overflow-y:auto;      /* ⬅️ WAJIB */
+  -webkit-overflow-scrolling: touch; /* ⬅️ penting buat HP */
+  #teksSurat{
+  padding-bottom:40px;
 }
+
+
+
 
 .album{
   width:100%;
@@ -530,3 +536,4 @@ musik.addEventListener("play",()=>{
 
 </body>
 </html>
+
