@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -253,6 +254,11 @@ body{
 #surat{
   touch-action: pan-y;
 }
+@media(max-width:600px){
+ .galaxy{display:none;}
+ body{animation:none;}
+ .stars{opacity:.15;}
+}
 
 </style>
 </head>
@@ -286,6 +292,15 @@ body{
 
     <button onclick="popup()">I Love You 💕</button>
     <button onclick="toggleNight()">Night Mode 🌙</button>
+    <div id="counter" style="margin:10px;font-size:18px;"></div>
+<button onclick="lamaran()">Marry Me 💍</button>
+<button onclick="game()">Tangkap Hatiku 💘</button>
+<div id="score"></div>
+<button onclick="faceLogin()">Login dengan Wajah 💖</button>
+<div id="jamCinta" style="margin:10px;font-size:18px"></div>
+<div id="loveCounter" style="margin-top:10px;font-size:18px"></div>
+<div id="fakeChat"></div>
+
 <input id="kodeTanggal" placeholder="Tanggal jadian (DDMMYYYY)">
 
     <div id="amplop" class="letter">📩 Klik untuk buka surat Valentine</div>
@@ -295,14 +310,40 @@ body{
         <img src="foto1.jpeg" class="album">
         <img src="foto2.jpeg" class="album">
         <img src="foto3.jpeg" class="album">
+        <img src="4.jpeg" class="album">
+        <img src="5.jpeg" class="album">
+        <img src="6.jpeg" class="album">
+        <img src="7.jpeg" class="album">
+        <img src="8.jpeg" class="album">
+        <img src="9.jpeg" class="album">
+        <img src="10.jpeg" class="album">
+        <img src="11.jpeg" class="album">
+        <img src="12.jpeg" class="album">
+        <img src="13.jpeg" class="album">
+        <img src="14.jpeg" class="album">
+        <img src="15.jpeg" class="album">
+        <img src="16.jpeg" class="album">
       </div>
       <div id="teksSurat"></div>
     </div>
+<video id="loveVideo" muted playsinline controls style="width:100%;border-radius:15px;margin-top:10px">
+  <source src="1.mp4" type="video/mp4">
+  <source src="2.mp4" type="video/mp4">
+  <source src="3.mp4" type="video/mp4">
+  Browser kamu tidak mendukung video 😢
+</video>
+
 
   </div>
 </div>
 
 <script>
+  document.body.style.opacity=0;
+window.onload=()=>{
+ document.body.style.transition="2s";
+ document.body.style.opacity=1;
+}
+
 const teks=`Hai cintaku...
 Selamat Hari Valentine Sayang! ❤️
 Kamu adalah cokelat manis dalam hidupku 🍫
@@ -324,6 +365,9 @@ function masuk(){
   nama.innerHTML=pass.value;
   login.style.display="none";
   main.style.display="flex";
+setTimeout(()=>{
+ alert("Aku bersyukur Tuhan mempertemukan aku denganmu ❤️");
+},4000);
 
   musik.volume=0;
   musik.play();
@@ -345,6 +389,9 @@ function bukaAmplop(){
     surat.style.display="block";
   },400);
 document.body.style.background="linear-gradient(180deg,#ff8fb3,#ffb6c1)";
+voiceLove();
+surat.style.display="block";
+loveVideo.play().catch(()=>{});
 
   teksSurat.innerHTML="";
   i=0;
@@ -538,6 +585,197 @@ musik.addEventListener("play",()=>{
   ctx.resume();
   galaxyColor();
 });
+function hitungHari(){
+  const start=new Date(2024,7,21); // bulan -1 (Agustus = 7)
+  const now=new Date();
+  const diff=Math.floor((now-start)/(1000*60*60*24));
+  counter.innerHTML=`Kita sudah bersama <b>${diff}</b> hari 💞`;
+}
+setInterval(hitungHari,1000);
+const airMata=[
+"Aku sayang kamu...",
+"Aku takut kehilangan kamu...",
+"Kamu segalanya buat aku...",
+"Terima kasih sudah bertahan bersamaku 😭❤️"
+];
+
+let t=0;
+setInterval(()=>{
+ alert(airMata[t%airMata.length]);
+ t++;
+},35000);
+function lamaran(){
+ alert("Maukah kamu jadi istriku suatu hari nanti? 💍😭❤️");
+}
+setInterval(()=>{
+ if(navigator.vibrate) navigator.vibrate(80);
+},1500);
+setInterval(()=>{
+ const n=document.createElement("div");
+ n.innerHTML=pass.value;
+ n.style.position="fixed";
+ n.style.left=Math.random()*100+"%";
+ n.style.top="-20px";
+ n.style.color="#ff69b4";
+ n.style.animation="fall 6s linear";
+ document.body.appendChild(n);
+ setTimeout(()=>n.remove(),6000);
+},3000);
+setInterval(()=>{
+ const f=document.createElement("div");
+ f.innerHTML=["🎆","✨","💥"][Math.floor(Math.random()*3)];
+ f.style.position="fixed";
+ f.style.left=Math.random()*100+"%";
+ f.style.top=Math.random()*50+"%";
+ f.style.fontSize="30px";
+ document.body.appendChild(f);
+ setTimeout(()=>f.remove(),2000);
+},2000);
+function voiceLove(){
+ const msg=new SpeechSynthesisUtterance(
+ `Aku cinta kamu ${pass.value}. Terima kasih sudah hadir di hidupku`
+ );
+ msg.lang="id-ID";
+ speechSynthesis.speak(msg);
+}
+let skor=0;
+function game(){
+ const h=document.createElement("div");
+ h.innerHTML="💖";
+ h.style.position="fixed";
+ h.style.left=Math.random()*80+"%";
+ h.style.top=Math.random()*80+"%";
+ h.style.fontSize="40px";
+ h.onclick=()=>{
+  skor++;
+  score.innerHTML="Hatimu tertangkap: "+skor;
+  h.remove();
+ };
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),4000);
+}
+setInterval(()=>{
+ const r=document.createElement("div");
+ r.innerHTML="📸";
+ r.style.position="fixed";
+ r.style.left=Math.random()*100+"%";
+ r.style.top="-20px";
+ r.style.animation="fall 8s linear";
+ document.body.appendChild(r);
+ setTimeout(()=>r.remove(),8000);
+},2500);
+setTimeout(()=>{
+ document.body.style.transition="2s";
+ document.body.style.background="#000";
+ alert("Kalau suatu hari aku pergi… cintaku tetap tinggal disini ❤️");
+},60000);
+function faceLogin(){
+ navigator.mediaDevices.getUserMedia({video:true}).then(()=>{
+  alert("Wajah terdeteksi... Selamat datang cintaku ❤️");
+  masuk();
+ });
+}
+function ending(){
+ document.body.innerHTML=`
+ <div style="background:black;color:white;height:100vh;
+ display:flex;align-items:center;justify-content:center;
+ flex-direction:column;font-size:28px">
+ Mau jadi pasangan hidupku? 💍❤️
+ <button onclick="alert('Aku cinta kamu selamanya 😭')" 
+ style="margin-top:20px;padding:15px;border-radius:20px">YA</button>
+ </div>`;
+}
+
+setTimeout(ending,120000);
+setTimeout(()=>{
+ alert("Aku mungkin bukan yang terbaik... tapi aku janji akan selalu berusaha jadi yang terakhir buat kamu 😭❤️");
+},30000);
+setInterval(()=>{
+ const d=new Date();
+ jamCinta.innerHTML=
+ `Sekarang jam ${d.getHours()}:${d.getMinutes()} — dan aku masih cinta kamu 💞`;
+},1000);
+setTimeout(()=>{
+ alert("Aku nggak mau hidup tanpa kamu. Kalau kamu pergi, sebagian aku ikut hilang...");
+},90000);
+setInterval(()=>{
+ const t=document.createElement("div");
+ t.innerHTML="aku cinta kamu";
+ t.style.position="fixed";
+ t.style.left=Math.random()*100+"%";
+ t.style.top="-10px";
+ t.style.color="#ff69b4";
+ t.style.fontSize="14px";
+ t.style.animation="fall 7s linear";
+ document.body.appendChild(t);
+ setTimeout(()=>t.remove(),7000);
+},3000);
+loveVideo.play().catch(()=>{});
+const videos=["1.mp4","2.mp4","3.mp4"];
+let vIndex=0;
+
+const video=document.getElementById("loveVideo");
+
+video.src=videos[vIndex];
+
+video.addEventListener("ended",()=>{
+ vIndex++;
+ if(vIndex<videos.length){
+  video.src=videos[vIndex];
+  video.play();
+ }else{
+  alert("Itu semua kenangan kita... aku cinta kamu 😭❤️");
+ }
+});
+const startLove = new Date("2024-08-21"); // GANTI tanggal jadian
+
+setInterval(()=>{
+ const now=new Date();
+ const diff=now-startLove;
+ const days=Math.floor(diff/86400000);
+ const hours=Math.floor(diff/3600000)%24;
+ const mins=Math.floor(diff/60000)%60;
+ loveCounter.innerHTML=
+ `Kita sudah bersama ${days} hari ${hours} jam ${mins} menit ❤️`;
+},1000);
+const chats=[
+ "Aku inget pertama kali kita ngobrol ketemu di leo",
+ "Aku seneng banget punya ayang",
+ "Kalau kamu cape, aku disini ya sayagnku",
+ "Aku serius sama ayang",
+ "Aku sayang ayang😭❤️"
+];
+
+let ci=0;
+setInterval(()=>{
+ if(ci<chats.length){
+  fakeChat.innerHTML+=`<p>${chats[ci]}</p>`;
+  ci++;
+ }
+},4000);
+let hold;
+document.body.addEventListener("touchstart",()=>{
+ hold=setTimeout(()=>{
+  alert("Makasih sudah bertahan sejauh ini sama aku… aku cinta kamu 😭");
+ },2000);
+});
+
+document.body.addEventListener("touchend",()=>clearTimeout(hold));
+document.addEventListener("visibilitychange",()=>{
+ if(document.hidden){
+  alert("Kamu screenshot ya 😳 aku malu tapi seneng ❤️");
+ }
+});
+const bg=["#ff7aa2","#ff9fc1","#ffc1d9","#ffd9ea"];
+let bi=0;
+setInterval(()=>{
+ document.body.style.background=bg[bi++%bg.length];
+},5000);
+setInterval(()=>{
+ speechSynthesis.speak(
+  new SpeechSynthesisUtterance("aku cinta kamu")
+ );
+},45000);
 
 </script>
 
