@@ -776,14 +776,18 @@ function marrySliderAuto(){
 }
 
 function kembali(){
+  const laguLamaran = document.getElementById("laguLamaran");
+  const marryPage = document.getElementById("marryPage");
+
   laguLamaran.pause();
   laguLamaran.currentTime = 0;
 
   musik.play();
 
-  marryPage.style.display="none";
-  main.style.display="flex";
+  marryPage.style.display = "none";
+  main.style.display = "flex";
 }
+
 
 setInterval(()=>{
  if(navigator.vibrate) navigator.vibrate(80);
