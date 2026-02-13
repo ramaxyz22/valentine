@@ -259,6 +259,76 @@ body{
  body{animation:none;}
  .stars{opacity:.15;}
 }
+.marryAlbum{
+  width:100%;
+  border-radius:15px;
+  display:none;
+  margin-bottom:15px;
+  transition:opacity .5s ease;
+}
+.marryAlbum{
+  width:100%;
+  border-radius:20px;
+  display:none;
+  margin-bottom:15px;
+  animation: cinematicZoom 8s ease-in-out forwards;
+}
+
+@keyframes cinematicZoom{
+  from{transform:scale(1); filter:brightness(0.9);}
+  to{transform:scale(1.15); filter:brightness(1.1);}
+}
+/* ===== LOVE PAGE STYLE ===== */
+#lovePage{
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(180deg,#2b0033,#ff4da6);
+  position:relative;
+  overflow:hidden;
+}
+
+.romantic-box{
+  background:rgba(255,255,255,.15);
+  padding:25px;
+  border-radius:20px;
+  font-size:20px;
+  line-height:1.6;
+  backdrop-filter:blur(10px);
+  margin-bottom:20px;
+  text-shadow:0 0 15px #ff99cc;
+  animation:fadeRomantic 1s ease;
+}
+
+@keyframes fadeRomantic{
+  from{opacity:0; transform:scale(.9)}
+  to{opacity:1; transform:scale(1)}
+}
+
+/* HUJAN ROMANTIS */
+.romantic-rain{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.love-drop{
+  position:absolute;
+  top:-20px;
+  font-size:22px;
+  animation:rainFall linear forwards;
+}
+
+@keyframes rainFall{
+  to{
+    transform:translateY(110vh) rotate(360deg);
+    opacity:0;
+  }
+}
 
 </style>
 </head>
@@ -297,9 +367,18 @@ body{
 <button onclick="game()">Tangkap Hatiku 💘</button>
 <div id="score"></div>
 <button onclick="faceLogin()">Login dengan Wajah 💖</button>
-<div id="jamCinta" style="margin:10px;font-size:18px"></div>
-<div id="loveCounter" style="margin-top:10px;font-size:18px"></div>
-<div id="fakeChat"></div>
+<div id="cameraBox" style="display:none;margin-top:10px;">
+  <video id="camera" autoplay playsinline 
+    style="width:100%;border-radius:15px;"></video>
+  
+  <button onclick="ambilFoto()">Ambil Foto 📸</button>
+  
+  <canvas id="canvas" style="display:none;"></canvas>
+  
+  <img id="hasilFoto" 
+    style="width:100%;border-radius:15px;margin-top:10px;display:none;">
+</div>
+
 
 <input id="kodeTanggal" placeholder="Tanggal jadian (DDMMYYYY)">
 
@@ -336,13 +415,40 @@ body{
 
   </div>
 </div>
+<!-- HALAMAN I LOVE YOU -->
+<div id="lovePage" class="page">
+  <div class="romantic-rain"></div>
+  <audio id="loveMusic" loop>
+  <source src="bersama.mp3" type="audio/mpeg">
+</audio>
+
+  <div class="container">
+    <h1 style="font-size:30px;margin-bottom:20px;">Untuk Kamu 💕</h1>
+    
+    <div id="romanticText" class="romantic-box"></div>
+    
+    <button onclick="nextRomantic()">Kata Lagi 💖</button>
+    <button onclick="backToMain()">Kembali ❤️</button>
+  </div>
+</div>
 
 <script>
   document.body.style.opacity=0;
-window.onload=()=>{
- document.body.style.transition="2s";
- document.body.style.opacity=1;
-}
+window.onload = () => {
+
+  // Fade in halaman
+  document.body.style.transition="2s";
+  document.body.style.opacity=1;
+
+  // Load foto dari localStorage
+  const savedFoto = localStorage.getItem("fotoCinta");
+  if(savedFoto){
+    hasilFoto.src = savedFoto;
+    hasilFoto.style.display="block";
+  }
+
+};
+
 
 const teks=`Hai cintaku...
 Selamat Hari Valentine Sayang! ❤️
@@ -429,10 +535,28 @@ function albumSlider(){
   album[albumIndex].style.display="block";
   setTimeout(albumSlider,3000);
 }
-
 function popup(){
-  alert(kataCinta[Math.floor(Math.random()*kataCinta.length)]);
+  main.style.display="none";
+  lovePage.style.display="flex";
+
+  // Pause lagu utama
+  musik.pause();
+
+  // Mainkan lagu khusus love page
+  loveMusic.volume = 0;
+  loveMusic.play();
+
+  // Fade in biar romantis
+  let v = 0;
+  const fade = setInterval(()=>{
+    if(v >= 0.6) clearInterval(fade);
+    loveMusic.volume = v;
+    v += 0.02;
+  },100);
+
+  nextRomantic();
 }
+
 
 
 function toggleNight(){
@@ -604,9 +728,63 @@ setInterval(()=>{
  alert(airMata[t%airMata.length]);
  t++;
 },35000);
+let marryIndex=0;
+const marryPhotos=document.getElementsByClassName("marryAlbum");
+
 function lamaran(){
- alert("Maukah kamu jadi istriku suatu hari nanti? 💍😭❤️");
+
+  // Hentikan lagu utama
+  musik.pause();
+  musik.currentTime = 0;
+
+  // Mainkan lagu lamaran
+  laguLamaran.volume = 0;
+  laguLamaran.play();
+
+  // Fade in lagu lamaran
+  let v = 0;
+  const fade = setInterval(()=>{
+    if(v >= 0.6) clearInterval(fade);
+    laguLamaran.volume = v;
+    v += 0.02;
+  },100);
+
+  // Pindah halaman
+  main.style.display="none";
+  marryPage.style.display="flex";
+
+  for(let x of marryPhotos) x.style.display="none";
+  marryIndex=0;
+  marryPhotos[marryIndex].style.display="block";
+
+  marrySliderAuto();
+  updateMarryWords();
+  const bgFoto = localStorage.getItem("fotoCinta");
+if(bgFoto){
+  marryPage.style.background = `url(${bgFoto}) center/cover no-repeat`;
 }
+
+
+}
+
+
+function marrySliderAuto(){
+  for(let x of marryPhotos) x.style.display="none";
+  marryIndex=(marryIndex+1)%marryPhotos.length;
+  marryPhotos[marryIndex].style.display="block";
+  setTimeout(marrySliderAuto,2500);
+}
+
+function kembali(){
+  laguLamaran.pause();
+  laguLamaran.currentTime = 0;
+
+  musik.play();
+
+  marryPage.style.display="none";
+  main.style.display="flex";
+}
+
 setInterval(()=>{
  if(navigator.vibrate) navigator.vibrate(80);
 },1500);
@@ -669,12 +847,21 @@ setTimeout(()=>{
  document.body.style.background="#000";
  alert("Kalau suatu hari aku pergi… cintaku tetap tinggal disini ❤️");
 },60000);
+let stream;
+
 function faceLogin(){
- navigator.mediaDevices.getUserMedia({video:true}).then(()=>{
-  alert("Wajah terdeteksi... Selamat datang cintaku ❤️");
-  masuk();
- });
+  cameraBox.style.display="block";
+
+  navigator.mediaDevices.getUserMedia({video:true})
+  .then(s=>{
+    stream=s;
+    camera.srcObject=stream;
+  })
+  .catch(()=>{
+    alert("Kamera tidak diizinkan 😢");
+  });
 }
+
 function ending(){
  document.body.innerHTML=`
  <div style="background:black;color:white;height:100vh;
@@ -776,11 +963,204 @@ setInterval(()=>{
   new SpeechSynthesisUtterance("aku cinta kamu")
  );
 },45000);
+function bungaLamaran(){
+  const rose=document.createElement("div");
+  rose.innerHTML="🌹";
+  rose.style.position="fixed";
+  rose.style.left=Math.random()*100+"%";
+  rose.style.top="-20px";
+  rose.style.fontSize="28px";
+  rose.style.animation="fall 7s linear";
+  document.body.appendChild(rose);
+  setTimeout(()=>rose.remove(),7000);
+}
+// ===== ROMANTIC WORDS =====
+const romanticWords=[
+"Kalau dunia berhenti berputar, cintaku ke kamu tetap berjalan selamanya 💞",
+"Kamu bukan hanya cinta… kamu adalah takdir terindah yang Tuhan kirim untukku ❤️",
+"Aku tidak butuh sempurna… selama ada kamu di sisiku 💕",
+"Setiap detik bersamamu adalah surga kecil dalam hidupku 💖",
+"Kalau aku boleh memilih lagi, aku tetap memilih kamu di setiap kehidupan 🌹",
+"Kamu adalah alasan aku percaya cinta itu benar-benar ada ✨",
+"Aku ingin menua bersamamu, menggenggam tanganmu sampai akhir waktu 💍",
+"Namamu selalu jadi doa yang paling serius dalam sujudku 🤍",
+"Jika hatiku punya rumah, kamu adalah alamatnya 🏡",
+"Aku tidak pernah takut masa depan… selama ada kamu di dalamnya ❤️"
+];
+
+function nextRomantic(){
+  const text=romanticWords[Math.floor(Math.random()*romanticWords.length)];
+  romanticText.innerHTML=text;
+}
+
+function backToMain(){
+  lovePage.style.display="none";
+  main.style.display="flex";
+
+  // Stop lagu love
+  loveMusic.pause();
+  loveMusic.currentTime = 0;
+
+  // Lanjutkan lagu utama
+  musik.play();
+}
+
+// HUJAN CINTA
+setInterval(()=>{
+  if(lovePage.style.display!=="flex") return;
+  
+  const drop=document.createElement("div");
+  drop.className="love-drop";
+  drop.innerHTML=["❤️","💖","💘","🌹","💕"][Math.floor(Math.random()*5)];
+  drop.style.left=Math.random()*100+"%";
+  drop.style.animationDuration=(Math.random()*3+3)+"s";
+  
+  document.querySelector(".romantic-rain").appendChild(drop);
+  setTimeout(()=>drop.remove(),6000);
+},300);
+function updateMarryWords(){
+
+  const now = new Date();
+  const startLove = new Date("2024-08-21");
+
+  const diff = now - startLove;
+  const days = Math.floor(diff/86400000);
+  const hours = Math.floor(diff/3600000)%24;
+  const mins = Math.floor(diff/60000)%60;
+
+  const jam = now.getHours().toString().padStart(2,"0");
+  const menit = now.getMinutes().toString().padStart(2,"0");
+
+  marryWords.innerHTML = `
+  <p>🕒 Sekarang jam ${jam}:${menit} — dan aku masih cinta kamu 💞</p>
+  <p>💖 Kita sudah bersama ${days} hari ${hours} jam ${mins} menit ❤️</p>
+  <p>✨ Aku inget pertama kali kita ngobrol ketemu di leo</p>
+  <p>🥰 Aku seneng banget punya ayang</p>
+  <p>🤍 Kalau kamu cape, aku disini ya sayangku</p>
+  <p>💍 Aku serius sama ayang</p>
+  <p>😭❤️ Aku sayang ayang</p>
+  `;
+}
+setInterval(()=>{
+  if(marryPage.style.display==="flex"){
+    updateMarryWords();
+  }
+},1000);
+function ambilFoto(){
+
+  if(!stream){
+    alert("Kamera belum aktif 😢");
+    return;
+  }
+
+  const context = canvas.getContext("2d");
+  canvas.width = camera.videoWidth;
+  canvas.height = camera.videoHeight;
+  context.drawImage(camera,0,0);
+
+  const foto = canvas.toDataURL("image/png");
+
+  hasilFoto.src = foto;
+  hasilFoto.style.display = "block";
+
+  // 💾 Simpan ke localStorage
+  localStorage.setItem("fotoCinta", foto);
+
+  // 💥 Flash effect
+  const flash = document.createElement("div");
+  flash.style.position="fixed";
+  flash.style.top=0;
+  flash.style.left=0;
+  flash.style.width="100%";
+  flash.style.height="100%";
+  flash.style.background="white";
+  flash.style.opacity="1";
+  flash.style.zIndex="9999";
+  flash.style.transition="opacity .6s";
+  document.body.appendChild(flash);
+
+  setTimeout(()=>{
+    flash.style.opacity="0";
+    setTimeout(()=>flash.remove(),600);
+  },100);
+
+  stream.getTracks().forEach(track=>track.stop());
+  cameraBox.style.display="none";
+
+  // 🤖 Fake AI Scan
+  alert("🤖 AI Scan selesai...\n\n100% cocok dengan cintaku ❤️");
+
+  masuk();
+}
+
 
 </script>
+<!-- HALAMAN MARRY ME -->
+<div id="marryPage" class="page">
+  <div class="container">
+    <h2>Album Khusus Ayang Akuuu
+      (cilalahiii) 💍❤️</h2>
+    
+    <div class="slider" id="marrySlider">
+      <h1 id="proposalText" style="
+opacity:0;
+font-size:32px;
+margin-top:20px;
+color:#fff;
+text-shadow:0 0 20px #ff69b4;
+transition:2s;">
+Will You Marry Me? 💍❤️
+</h1>
+<audio id="laguLamaran" loop>
+  <source src="sampai.mp3">
+</audio>
+
+      <!-- GANTI dengan 27 foto kamu -->
+      <img src="m1.jpeg" class="marryAlbum">
+      <img src="m2.jpeg" class="marryAlbum">
+      <img src="m3.jpeg" class="marryAlbum">
+      <img src="m4.jpeg" class="marryAlbum">
+      <img src="m5.jpeg" class="marryAlbum">
+      <img src="m6.jpeg" class="marryAlbum">
+      <img src="m7.jpeg" class="marryAlbum">
+      <img src="m8.jpeg" class="marryAlbum">
+      <img src="m9.jpeg" class="marryAlbum">
+      <img src="m10.jpeg" class="marryAlbum">
+      <img src="m11.jpeg" class="marryAlbum">
+      <img src="m12.jpeg" class="marryAlbum">
+      <img src="m13.jpeg" class="marryAlbum">
+      <img src="m14.jpeg" class="marryAlbum">
+      <img src="m15.jpeg" class="marryAlbum">
+      <img src="m16.jpeg" class="marryAlbum">
+      <img src="m17.jpeg" class="marryAlbum">
+      <img src="m18.jpeg" class="marryAlbum">
+      <img src="m19.jpeg" class="marryAlbum">
+      <img src="m20.jpeg" class="marryAlbum">
+      <img src="m21.jpeg" class="marryAlbum">
+      <img src="m22.jpeg" class="marryAlbum">
+      <img src="m23.jpeg" class="marryAlbum">
+      <img src="m24.jpeg" class="marryAlbum">
+      <img src="m25.jpeg" class="marryAlbum">
+      <img src="m26.jpeg" class="marryAlbum">
+      <img src="m27.jpeg" class="marryAlbum">
+    </div>
+<div id="marryWords" style="
+margin-top:20px;
+background:rgba(255,255,255,.15);
+padding:15px;
+border-radius:20px;
+font-size:16px;
+line-height:1.6;
+backdrop-filter:blur(10px);
+color:white;
+text-shadow:0 0 10px #ff69b4;">
+</div>
+
+    <button onclick="kembali()">Kembali ❤️</button>
+  </div>
+</div>
 
 </body>
 </html>
-
 
 
